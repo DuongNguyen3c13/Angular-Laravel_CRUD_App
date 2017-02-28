@@ -1,0 +1,25 @@
+<h2>Update user's information</h2>
+<div class="row">
+  <div class="col-md-6">
+  <form role="form" ng-submit= "submitForm()" novalidate name="userForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input class="form-control" type="text" name="name" ng-model="user.name" required />
+    </div>
+    <div class="form-group">
+      <label for="address">Address:</label>
+      <input class="form-control" type="text" name="address" ng-model="user.address" required />
+    </div>
+    <div class="form-group">
+      <label for="age">Age:</label>
+      <input class="form-control" type="text" name="age" ng-model="user.age" required />
+    </div>
+    <div class="form-group">
+      <label for="photo">Photo:</label>
+      <input class="form-control" type="text" name="photo" ng-model="user.photo" />
+    </div>
+    <button class="btn btn-primary" ng-disabled="userForm.$invalid" id="add-new-btn" type="submit">Submit</button>
+    <a href="#/" class="btn">Cancel</a>
+  </form>
+</div>
+</div>

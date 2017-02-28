@@ -1,0 +1,27 @@
+<a class="btn btn-primary" href="#/add-user">Add New User</a>
+<table id="example1" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Age</th>
+      <th>Photo</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in users">
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.address}}</td>
+      <td>{{user.age}}</td>
+      <td ng-show="user.photo != null"><img src="{{user.photo}}" 
+        alt="{{user.name}} photo" class="img-circle" height="60" width="60"></td>
+      <td ng-show="user.photo == null">No image found</td>  
+      <td>
+        <a href="#/update-user/{{user.id}}" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span></a>
+        <a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-remove-circle"></span></a>
+      </td>
+  </tbody>
+</table>
