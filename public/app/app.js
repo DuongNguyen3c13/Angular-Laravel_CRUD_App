@@ -1,70 +1,77 @@
-var app = angular.module('userApp', ['ngRoute']);
-app.config(function($routeProvider) {
-	$routeProvider
-	.when('/', {
-		templateUrl : "/template/list.html",
-		controller : "ListCtrl"
-	})
-	.when('/add-user', {
-		templateUrl : "/template/add-new.html",
-		controller : "AddCtrl"
-	})
-	.when('/update-user/:id', {
-		templateUrl : "template/update-user.html",
-		controller : "UpdateCtrl"
-	})
-	.otherwise({
-		redirectTo: '/'
-	});
-})
+var app = angular.module('usersApp', [])
+.constant('API_URL', 'http://user.app/api/');
 
-app.controller("ListCtrl", function($scope, $http) {
-	$http.get('api/users').success(function(data) {
-		$scope.users = data;
-	});
-})
-app.controller("AddCtrl", function($scope, $location, $http) {
-	$scope.submitForm = function() {
-	// 	$scope.user = {};
-		$http({
-			method: 'POST',
-			url: '/api/users',
-			data: $scope.user,
-		})
+app.controller('usersController', function($scope, $http, API_URL) {
+	//retrieve employees listing from API
+	$http.get(API_URL + "users")
+	.success(function(response) {
+		$scope.users = response;
+});
+
+// show modal form
+$scope.toggle = function(modalstate, id) {
+	$scope.modalstate = modalstate;
+
+	switch (modalstate) {
+		case 'add':
+		$scope.form_title = "Add New User";
+		break;
+		case 'edit':
+		$scope.form_title = "User Detail";
+		$scope.id = id;
+		$http.get(API_URL + 'users/' + id)
 		.success(function(response) {
-		    $location.path('/');
-    	})
-    	.error(function(response) {
-    		console.log("error, please check the log");
-    	})
+			console.log(response);
+			$scope.user = response;
+		});
+		break;
+		default:
+		break;
 	}
-})
-app.controller("UpdateCtrl", function($scope, $http, id) {
+	console.log(id);
+	$('#myModal').modal('show');
+}
 
-})
+// save new record / update existing record
+$scope.save = function(modalstate, id) {
+	var url = API_URL + "users";
+    //append employee id to the URL if the form is in edit mode
+    if (modalstate === 'edit'){
+    	url += "/" + id;
+    }
+    $http({
+    	method: 'POST',
+    	url: url,
+    	data: $.param($scope.user),
+    	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(response) {
+    	console.log(response);
+    	// $location.path('').replace();
+    	// location.reload();
+    }).error(function(response) {
+    	console.log(response);
+    	alert('An error has occured. Please check the log for details');
+    });
+}
 
-// function EditCtrl($scope, $http, $location, $routeParams) {
-//   var id = $routeParams.id;
-//   $scope.activePath = null;
-
-//   $http.get('api/users/'+id).success(function(data) {
-//     $scope.users = data;
-//   });
-
-//   $scope.update = function(user){
-//     $http.put('api/users/'+id, user).success(function(data) {
-//       $scope.users = data;
-//       $scope.activePath = $location.path('/');
-//     });
-//   };
-
-//   $scope.delete = function(user) {
-//     console.log(user);
-
-//     var deleteUser = confirm('Are you absolutely sure you want to delete?');
-//     if (deleteUser) {
-//       $http.delete('api/users/'+user.id);
-//       $scope.activePath = $location.path('/');
-//     }
-//   };
-// }
+//delete record
+$scope.confirmDelete = function(id) {
+	var isConfirmDelete = confirm('Delete this record?');
+	if (isConfirmDelete) {
+		$http({
+			method: 'GET',
+			url: API_URL + 'users/destroy/' + id
+		}).
+		success(function(data) {
+			console.log(data);
+			location.reload();
+		}).
+		error(function(data) {
+			console.log(data);
+			alert('Unable to delete');
+		});
+	} else {
+		return false;
+	}
+}
+});
