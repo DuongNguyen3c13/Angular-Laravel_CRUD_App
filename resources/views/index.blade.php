@@ -62,7 +62,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('img/123.jpg') }}" class="img-circle" alt="User Image">
+          <img src="{{ asset('image/123.jpg') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Test app</p>
@@ -117,7 +117,7 @@
                 <td>@{{user.name}}</td>
                 <td>@{{user.address}}</td>
                 <td>@{{user.age}}</td>
-                <td ng-show="user.photo != null"><img src="@{{user.photo}}" 
+                <td ng-show="user.photo !== null"><img src="@{{user.photo}}" 
                   alt="@{{user.name}} photo" class="img-circle" height="60" width="60"></td>
                 <td ng-show="user.photo == null">No image found</td>  
                         <td>
@@ -173,7 +173,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
                                     <div class="col-sm-9">
-                                        <input type="file" id="photo" name="photo">
+                                        <input type="file" id="photo" name="photo" onchange="angular.element(this).scope().uploadedFile(this)">
                                     </div>
                                 </div>
                                 <!-- <div class="form-group">
