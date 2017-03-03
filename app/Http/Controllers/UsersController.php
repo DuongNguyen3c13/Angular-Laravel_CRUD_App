@@ -28,6 +28,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {   
+        dd($request->photo);
         $user = new User;
         $user->name = $request->input('name');
         $user->address = $request->input('address');
