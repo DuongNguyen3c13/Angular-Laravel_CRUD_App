@@ -15,12 +15,9 @@ Route::get('/', function () {
     return view('index');
 });
 Route::group(['prefix' => 'api'], function() {
-	Route::get('users', 'UsersController@index');
+	Route::get('users/{user?}', 'UsersController@index');
 	Route::post('users', 'UsersController@store');
-	Route::post('users/{user}', 'UsersController@update');
-	// Route::resource('users', 'UsersController');
+	Route::post('users/{id}', 'UsersController@update');
+	Route::get('users/destroy/{id}', 'UsersController@destroy');
 });
 		
-// Route::any('{route}', function() {
-//   return view('index');
-// })->where('route', '.*');

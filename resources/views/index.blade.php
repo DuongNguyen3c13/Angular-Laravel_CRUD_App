@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="usersApp">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,12 +27,12 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition skin-blue sidebar-mini" ng-app="userApp">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="{{ url('#/') }}" class="logo">
+    <a href="{{ url('/') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>T</b>A</span>
       <!-- logo for regular state and mobile devices -->
@@ -62,7 +62,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('img/123.jpg') }}" class="img-circle" alt="User Image">
+          <img src="{{ asset('image/123.jpg') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Test app</p>
@@ -75,7 +75,7 @@
         <li class="header">MAIN NAVIGATION</li>
         <!-- Optionally, you can add icons to the links -->
 
-        <li ><a href="{{ url('#/') }}"><i class="fa fa-link"></i> <span>Users Management</span></a></li>
+        <li ><a href="{{ url('/') }}"><i class="fa fa-link"></i> <span>Users Management</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -96,7 +96,106 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="box">
-            <div class="box-body" ng-view></div>
+            <div class="box-body">
+            <div  ng-controller="usersController">
+
+            <!-- Table-to-load-the-data Part -->
+            <table class="table">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Age</th>
+                  <th>Photo</th>
+                  <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New User</button></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in users">
+                <td>@{{user.id}}</td>
+                <td>@{{user.name}}</td>
+                <td>@{{user.address}}</td>
+                <td>@{{user.age}}</td>
+                <td ng-show="user.photo !== null"><img src="@{{user.photo}}" 
+                  alt="@{{user.name}} photo" class="img-circle" height="60" width="60"></td>
+                <td ng-show="user.photo == null">No image found</td>  
+                        <td>
+                            <button class="btn btn-default btn-xs btn-detail glyphicon glyphicon-edit" ng-click="toggle('edit', user.id)"></button>
+                            <button class="btn btn-danger btn-xs btn-delete glyphicon glyphicon-remove" ng-click="confirmDelete(user.id)"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- End of Table-to-load-the-data Part -->
+            <!-- Modal (Pop up when detail button clicked) -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel">@{{form_title}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="userForm" class="form-horizontal" novalidate="" enctype="multipart/form-data">
+                            <!-- <form action="{!! action('UsersController@store') !!}" method="POST" enctype="multipart/form-data"> -->
+
+                                <div class="form-group error">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="@{{name}}" 
+                                        ng-model="user.name" ng-required="true">
+                                        <span class="help-inline" 
+                                        ng-show="userForm.name.$invalid && userForm.name.$touched">Invalid name</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Address</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="@{{address}}" 
+                                        ng-model="user.address" ng-required="true">
+                                        <span class="help-inline" 
+                                        ng-show="userForm.address.$invalid && userForm.address.$touched">Invalid address</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Age</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" 
+                                        ng-model="user.age" ng-required="true">
+                                        <span class="help-inline" 
+                                        ng-show="userForm.age.$invalid && userForm.age.$touched">Invalid age</span>
+                                    </div>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
+                                    <div class="col-sm-9">
+                                        <input type="file" id="photo" name="photo" onchange="angular.element(this).scope().uploadedFile(this)">
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="photo" name="photo" placeholder="Photo" value="@{{photo}}" 
+                                        ng-model="user.photo" ng-required="false">
+                                    <span class="help-inline" 
+                                        ng-show="userForm.photo.$invalid && userForm.photo.$touched">Invalid photo</span>
+                                    </div>
+                                </div> -->
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" ng-disabled="userForm.$invalid">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
               <!-- /box-body -->
           </div>
           <!-- /.box -->
@@ -147,18 +246,5 @@
   $(".confirm").confirm();
 </script>
 <!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
-</script>
 </body>
 </html>
