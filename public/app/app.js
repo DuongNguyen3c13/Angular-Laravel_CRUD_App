@@ -64,6 +64,7 @@ $scope.toggle = function(modalstate, id) {
 	switch (modalstate) {
 		case 'add':
 		$scope.form_title = "Add New User";
+		$scope.user = "";
 		break;
 		case 'edit':
 		$scope.form_title = "User Detail";

@@ -215,8 +215,8 @@
                                         <input type="file" accept="image/*" 
                                         onchange="angular.element(this).scope().uploadImage(this)">
                                         <span class="help-inline"
-                                            ng-show="user.photo!==null && userForm.photo.$pristine">
-                                            Curren photo: @{{user.photo}}
+                                            ng-show="user.photo !== null">
+                                            Current photo: @{{user.photo}}
                                             <br>
                                         </span>
                                     </div>
