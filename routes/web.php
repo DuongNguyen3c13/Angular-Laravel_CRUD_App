@@ -19,5 +19,6 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('users', 'UsersController@store');
 	Route::post('users/{id}', 'UsersController@update');
 	Route::get('users/destroy/{id}', 'UsersController@destroy');
+	Route::post('image', 'UsersController@uploadImage');
 });
 		
