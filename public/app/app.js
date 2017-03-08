@@ -14,11 +14,13 @@ $scope.orderBy = function(field) {
 
 $scope.uploadImage = function(user) {
 	// validate image extension
+	$('#photo-format-error').html("");
+	$('#photo-size-error').html("");
 	var file = user.files[0];
 	var fileName = file.name;
 	var extension = fileName.split(".").pop();
 	if(extension != 'jpg' && extension != 'gif' && extension != 'png' && extension != 'jpeg') {
-		$('#photo-format-error').html('Please input a valid image( jpg, gif, png, jpeg)').css('color', 'red');
+		$('#photo-format-error').html('Please choose a valid image( jpg, gif, png, jpeg)').css('color', 'red');
 		document.getElementById("photo").value = "";
 	}
 	// validate image size
@@ -29,16 +31,16 @@ $scope.uploadImage = function(user) {
 		document.getElementById("photo").value = "";
 	}
 	// send image to handle
-    var formData = new FormData();
-    formData.append("file", user.files[0]);
-    response = $http.post('/api/image', formData, {
-        headers: {'Content-Type': undefined},
-        transformRequest: angular.identity
-    }).success(function (response) {
-    	console.log(response);
-        $scope.user.photo = response;
-    }).error(function () {
-    });	
+	var formData = new FormData();
+	formData.append("file", user.files[0]);
+	response = $http.post('/api/image', formData, {
+		headers: {'Content-Type': undefined},
+		transformRequest: angular.identity
+	}).success(function (response) {
+		console.log(response);
+		$scope.user.photo = response;
+	}).error(function () {
+	});	
 };
 
 // save new record / update existing record
@@ -57,10 +59,10 @@ $scope.save = function(modalstate, id) {
     	console.log(response);
     	//reload page
     	$http.get(API_URL + "users")
-			.success(function(response) {
-				$scope.users = response;
-		});
-		$('#myModal').modal('hide');
+    	.success(function(response) {
+    		$scope.users = response;
+    	});
+    	$('#saveModal').modal('hide');
     }).error(function(response) {
     	console.log(response);
     	alert('An error has occured. Please check the log for details');
@@ -75,9 +77,9 @@ $scope.toggle = function(modalstate, id) {
 		case 'add':
 		$scope.form_title = "Add New User";
 		$scope.user = "";
+		document.getElementById("photo").value = "";
 		$('#photo-format-error').html("");
 		$('#photo-size-error').html("");
-		document.getElementById("photo").value = "";
 		console.log($scope.user);
 		break;
 		case 'edit':
@@ -94,7 +96,7 @@ $scope.toggle = function(modalstate, id) {
 		break;
 	}
 	console.log(id);
-	$('#myModal').modal('show');
+	$('#saveModal').modal('show');
 }
 
 //delete record
@@ -108,8 +110,8 @@ $scope.confirmDelete = function(id) {
 		success(function(data) {
 			console.log(data);
 			//reload page
-    		$http.get(API_URL + "users")
-				.success(function(response) {
+			$http.get(API_URL + "users")
+			.success(function(response) {
 				$scope.users = response;
 			});
 		}).

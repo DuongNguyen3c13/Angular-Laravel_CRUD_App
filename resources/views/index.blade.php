@@ -141,12 +141,12 @@
             </table>
             <!-- End of Table-to-load-the-data Part -->
             <!-- Modal (Pop up when detail button clicked) -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title" id="myModalLabel">@{{form_title}}</h4>
+                            <h4 class="modal-title" id="saveModalLabel">@{{form_title}}</h4>
                         </div>
                         <div class="modal-body">
                             <form name="userForm" class="form-horizontal" novalidate="" >
@@ -224,7 +224,7 @@
                                     <input type="text" style="display:none" class="form-control" name="photo" ng-model="user.photo" name="photo">
                                         <input type="file" id="photo"
                                         onchange="angular.element(this).scope().uploadImage(this)">
-                                        <span class="help-inline" ng-show="user.photo != null ">
+                                        <span class="help-inline" ng-show="user.photo != null">
                                             Current photo: <img src="@{{user.photo}}" alt="@{{user.name}} photo" class="img-circle" height="60" width="60">
                                         </span>
                                         <div id="photo-format-error"></div>
