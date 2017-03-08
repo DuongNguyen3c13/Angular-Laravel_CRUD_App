@@ -103,23 +103,23 @@
             <table class="table">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Age</th>
+                  <th>ID <a href="#" ng-click="orderByMe('id')"><i class="fa fa-arrow-down fa-1"></a></i></th>
+                  <th>Name <a href="#"  ng-click="orderByMe('name')"><i class="fa fa-arrow-down fa-1"></a></i></th>
+                  <th>Address <a href="#"  ng-click="orderByMe('address')"><i class="fa fa-arrow-down fa-1"></a></i></th>
+                  <th>Age <a href="#"  ng-click="orderByMe('age')"><i class="fa fa-arrow-down fa-1"></a></i></th>
                   <th>Photo</th>
                   <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New User</button></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="user in users">
+                <tr ng-repeat="user in users | orderBy:myOrderBy">
                 <td>@{{user.id}}</td>
                 <td>@{{user.name}}</td>
                 <td>@{{user.address}}</td>
                 <td>@{{user.age}}</td>
                 <td ng-show="user.photo !== null"><img src="@{{user.photo}}" 
                   alt="@{{user.name}} photo" class="img-circle" height="60" width="60"></td>
-                <td ng-show="user.photo == null">No image found</td>  
+                <td ng-show="user.photo === null">No image found</td>  
                         <td>
                             <button class="btn btn-default btn-xs btn-detail glyphicon glyphicon-edit" ng-click="toggle('edit', user.id)"></button>
                             <button class="btn btn-danger btn-xs btn-delete glyphicon glyphicon-remove" ng-click="confirmDelete(user.id)"></button>
@@ -137,16 +137,27 @@
                             <h4 class="modal-title" id="myModalLabel">@{{form_title}}</h4>
                         </div>
                         <div class="modal-body">
-                            <form name="userForm" class="form-horizontal" novalidate="" enctype="multipart/form-data">
-                            <!-- <form action="{!! action('UsersController@store') !!}" method="POST" enctype="multipart/form-data"> -->
-
+                            <form name="userForm" class="form-horizontal" novalidate="" >
                                 <div class="form-group error">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="@{{name}}" 
-                                        ng-model="user.name" ng-required="true">
-                                        <span class="help-inline" 
-                                        ng-show="userForm.name.$invalid && userForm.name.$touched">Invalid name</span>
+                                        ng-model="user.name" ng-required="true" ng-maxlength="100" ng-pattern="/^[a-zA-Z\s]*$/">
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.name.$error.required && userForm.name.$touched">
+                                            Name field is required
+                                            <br>
+                                        </span>
+                                        <span class="help-inline" style="color:red" 
+                                            ng-show="userForm.name.$error.maxlength && userForm.name.$touched">
+                                            Name must not be longer than 100 characters
+                                            <br>
+                                        </span>
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.name.$error.pattern && userForm.name.$touched">
+                                            Name field must contain alphabectic characters only
+                                            <br>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -154,42 +165,63 @@
                                     <label for="inputEmail3" class="col-sm-3 control-label">Address</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="@{{address}}" 
-                                        ng-model="user.address" ng-required="true">
-                                        <span class="help-inline" 
-                                        ng-show="userForm.address.$invalid && userForm.address.$touched">Invalid address</span>
+                                        ng-model="user.address" ng-required="true" ng-maxlength="300" 
+                                        ng-pattern="/^[a-zA-Z0-9,. \t\r\n\-]+$/">
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.address.$error.required && userForm.address.$touched">
+                                            Address field is required
+                                            <br>
+                                        </span>
+                                        <span class="help-inline" style="color:red" 
+                                            ng-show="userForm.address.$error.maxlength && userForm.address.$touched">
+                                            Address must not be longer than 300 characters
+                                            <br>
+                                        </span>
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.address.$error.pattern && userForm.address.$touched">
+                                            Name field must contain alphabectic characters, number, coma and dot only
+                                            <br>
+                                        </span>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Age</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" 
-                                        ng-model="user.age" ng-required="true">
-                                        <span class="help-inline" 
-                                        ng-show="userForm.age.$invalid && userForm.age.$touched">Invalid age</span>
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[0-9]*$/">
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.age.$error.required && userForm.age.$touched">Age field is required
+                                            <br>
+                                        </span>
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.age.$error.maxlength && userForm.age.$touched">
+                                            Age field must not be longer than 2 characters
+                                            <br>
+                                        </span>
+                                        <span class="help-inline" style="color:red"
+                                            ng-show="userForm.age.$error.pattern && userForm.age.$touched">
+                                            Age field must contain number only
+                                            <br>
+                                        </span>
                                     </div>
                                 </div>
         
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
                                     <div class="col-sm-9">
-                                        <input type="file" id="photo" name="photo" onchange="angular.element(this).scope().uploadedFile(this)">
+                                    <input type="text" style="display:none" class="form-control" name="photo" ng-model="user.photo" name="photo">
+                                        <input type="file" id="photo"
+                                        onchange="angular.element(this).scope().uploadImage(this)">
+                                        <span class="help-inline" ng-show="user.photo !== null">
+                                            Current photo: @{{user.photo}}
+                                            <br>
+                                        </span>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="photo" name="photo" placeholder="Photo" value="@{{photo}}" 
-                                        ng-model="user.photo" ng-required="false">
-                                    <span class="help-inline" 
-                                        ng-show="userForm.photo.$invalid && userForm.photo.$touched">Invalid photo</span>
-                                    </div>
-                                </div> -->
-
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-save" ng-click="save(modalstate, id)" ng-disabled="userForm.$invalid">Save changes</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" name="submit" ng-click="save(modalstate, id)" ng-disabled="userForm.$invalid">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -239,7 +271,8 @@
 <script src="{{ asset('dashboard/dist/js/demo.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<script src ="{{ asset('app/app.js') }}"></script>
+<script src="{{ asset('app/bower_components/ng-file-upload/ng-file-upload.min.js')}}"></script>
+<script src="{{ asset('app/app.js') }}"></script>
 <!-- confirm js -->
 <script src="{{ asset('dashboard/dist/js/jquery.confirm.min.js') }}"></script>
 <script>
