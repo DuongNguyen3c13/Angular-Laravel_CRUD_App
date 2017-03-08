@@ -23,7 +23,8 @@ $scope.uploadImage = function(user) {
 	}
 	// validate image size
 	var fileSize = file.size;
-	if(file.size>=10000000) {
+	var maxSize = 10000000
+	if(file.size>=maxSize) {
 		alert("File too large. 10MB maximum is allowed");
 		document.getElementById("photo").value = "";
 	}
