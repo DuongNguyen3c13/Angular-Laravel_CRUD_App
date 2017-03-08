@@ -17,6 +17,7 @@ $scope.uploadImage = function(user) {
 	$('#photo-format-error').html("");
 	$('#photo-size-error').html("");
 	var file = user.files[0];
+	console.log(file);
 	var fileName = file.name;
 	var extension = fileName.split(".").pop();
 	if(extension != 'jpg' && extension != 'gif' && extension != 'png' && extension != 'jpeg') {
@@ -76,7 +77,7 @@ $scope.toggle = function(modalstate, id) {
 	switch (modalstate) {
 		case 'add':
 		$scope.form_title = "Add New User";
-		$scope.user = "";
+		$scope.user = {};
 		document.getElementById("photo").value = "";
 		$('#photo-format-error').html("");
 		$('#photo-size-error').html("");

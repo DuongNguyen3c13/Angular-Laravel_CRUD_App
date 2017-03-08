@@ -221,9 +221,10 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
                                     <div class="col-sm-9">
-                                    <input type="text" style="display:none" class="form-control" name="photo" ng-model="user.photo" name="photo">
+                                    
                                         <input type="file" id="photo"
                                         onchange="angular.element(this).scope().uploadImage(this)">
+                                        <input type="text" style="display:none" class="form-control" name="photo" ng-model="user.photo" name="photo">
                                         <span class="help-inline" ng-show="user.photo != null">
                                             Current photo: <img src="@{{user.photo}}" alt="@{{user.name}} photo" class="img-circle" height="60" width="60">
                                         </span>
