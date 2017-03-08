@@ -8,8 +8,8 @@ $http.get(API_URL + "users")
 	$scope.users = response;
 });
 
-$scope.orderByMe = function(user) {
-	$scope.myOrderBy = user;
+$scope.orderBy = function(field) {
+	$scope.field = field;
 }
 
 $scope.uploadImage = function(user) {
@@ -18,14 +18,14 @@ $scope.uploadImage = function(user) {
 	var fileName = file.name;
 	var extension = fileName.split(".").pop();
 	if(extension != 'jpg' && extension != 'gif' && extension != 'png' && extension != 'jpeg') {
-		alert("Please input a valid image");
+		$('#photo-format-error').html('Please input a valid image( jpg, gif, png, jpeg)').css('color', 'red');
 		document.getElementById("photo").value = "";
 	}
 	// validate image size
 	var fileSize = file.size;
-	var maxSize = 10000000
-	if(file.size>=maxSize) {
-		alert("File too large. 10MB maximum is allowed");
+	var maxSize = 10*1024*1024;
+	if(file.size >= maxSize) {
+		$('#photo-size-error').html('File too large. 10MB maximum is allowed').css('color', 'red');
 		document.getElementById("photo").value = "";
 	}
 	// send image to handle
@@ -75,11 +75,15 @@ $scope.toggle = function(modalstate, id) {
 		case 'add':
 		$scope.form_title = "Add New User";
 		$scope.user = "";
+		$('#photo-format-error').html("");
+		$('#photo-size-error').html("");
 		document.getElementById("photo").value = "";
 		console.log($scope.user);
 		break;
 		case 'edit':
 		document.getElementById("photo").value = "";
+		$('#photo-format-error').html("");
+		$('#photo-size-error').html("");
 		$scope.form_title = "User Detail";
 		$scope.id = id;
 		$http.get(API_URL + 'users/' + id)

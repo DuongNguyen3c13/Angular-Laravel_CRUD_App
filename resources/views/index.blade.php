@@ -84,7 +84,6 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <!-- Content Header (Page header) -->
   <section class="content-header">
       <h4>
         Users Management
@@ -103,16 +102,29 @@
             <table class="table">
                 <thead>
                 <tr>
-                  <th>ID <a href="#" ng-click="orderByMe('id')"><i class="fa fa-arrow-down fa-1"></a></i></th>
-                  <th>Name <a href="#"  ng-click="orderByMe('name')"><i class="fa fa-arrow-down fa-1"></a></i></th>
-                  <th>Address <a href="#"  ng-click="orderByMe('address')"><i class="fa fa-arrow-down fa-1"></a></i></th>
-                  <th>Age <a href="#"  ng-click="orderByMe('age')"><i class="fa fa-arrow-down fa-1"></a></i></th>
-                  <th>Photo</th>
-                  <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New User</button></th>
+                <th>ID 
+                    <a href="#" ng-click="orderBy('id')">&#x25B2;</a>
+                    <a href="#" ng-click="orderBy('-id')">&#x25BC;</a>
+                </th>
+                <th>Name 
+                    <a href="#"  ng-click="orderBy('name')">&#x25B2;</a>
+                    <a href="#"  ng-click="orderBy('-name')">&#x25BC;</a>
+                </th>
+                <th>Address 
+                    <a href="#"  ng-click="orderBy('address')">&#x25B2;</a>
+                    <a href="#"  ng-click="orderBy('-address')">&#x25BC;</a>
+                    </a>
+                </th>
+                <th>Age 
+                    <a href="#"  ng-click="orderBy('age')">&#x25B2;</a>
+                    <a href="#"  ng-click="orderBy('-age')">&#x25BC;</a>
+                </th>
+                <th>Photo</th>
+                <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New User</button></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="user in users | orderBy:myOrderBy">
+                <tr ng-repeat="user in users | orderBy:field">
                 <td>@{{user.id}}</td>
                 <td>@{{user.name}}</td>
                 <td>@{{user.address}}</td>
@@ -120,11 +132,11 @@
                 <td ng-show="user.photo !== null"><img src="@{{user.photo}}" 
                   alt="@{{user.name}} photo" class="img-circle" height="60" width="60"></td>
                 <td ng-show="user.photo === null">No image found</td>  
-                        <td>
-                            <button class="btn btn-default btn-xs btn-detail glyphicon glyphicon-edit" ng-click="toggle('edit', user.id)"></button>
-                            <button class="btn btn-danger btn-xs btn-delete glyphicon glyphicon-remove" ng-click="confirmDelete(user.id)"></button>
-                        </td>
-                    </tr>
+                <td>
+                    <button class="btn btn-default btn-xs btn-detail glyphicon glyphicon-edit" ng-click="toggle('edit', user.id)"></button>
+                    <button class="btn btn-danger btn-xs btn-delete glyphicon glyphicon-remove" ng-click="confirmDelete(user.id)"></button>
+                </td>
+                </tr>
                 </tbody>
             </table>
             <!-- End of Table-to-load-the-data Part -->
@@ -212,10 +224,11 @@
                                     <input type="text" style="display:none" class="form-control" name="photo" ng-model="user.photo" name="photo">
                                         <input type="file" id="photo"
                                         onchange="angular.element(this).scope().uploadImage(this)">
-                                        <span class="help-inline" ng-show="user.photo !== null">
-                                            Current photo: @{{user.photo}}
-                                            <br>
+                                        <span class="help-inline" ng-show="user.photo != null ">
+                                            Current photo: <img src="@{{user.photo}}" alt="@{{user.name}} photo" class="img-circle" height="60" width="60">
                                         </span>
+                                        <div id="photo-format-error"></div>
+                                        <div id="photo-size-error"></div>
                                     </div>
                                 </div>
                             </form>
@@ -275,9 +288,6 @@
 <script src="{{ asset('app/app.js') }}"></script>
 <!-- confirm js -->
 <script src="{{ asset('dashboard/dist/js/jquery.confirm.min.js') }}"></script>
-<script>
-  $(".confirm").confirm();
-</script>
 <!-- page script -->
 </body>
 </html>
