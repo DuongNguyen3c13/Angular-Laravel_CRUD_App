@@ -103,10 +103,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                  <th ng-click="orderByMe('id')">ID</th>
-                  <th ng-click="orderByMe('name')">Name</th>
-                  <th ng-click="orderByMe('address')">Address</th>
-                  <th ng-click="orderByMe('age')">Age</th>
+                  <th>ID <a href="#" ng-click="orderByMe('id')"><i class="fa fa-arrow-down fa-1"></a></i></th>
+                  <th>Name <a href="#"  ng-click="orderByMe('name')"><i class="fa fa-arrow-down fa-1"></a></i></th>
+                  <th>Address <a href="#"  ng-click="orderByMe('address')"><i class="fa fa-arrow-down fa-1"></a></i></th>
+                  <th>Age <a href="#"  ng-click="orderByMe('age')"><i class="fa fa-arrow-down fa-1"></a></i></th>
                   <th>Photo</th>
                   <th><button id="btn-add" class="btn btn-primary btn-xs" ng-click="toggle('add', 0)">Add New User</button></th>
                 </tr>
@@ -138,8 +138,6 @@
                         </div>
                         <div class="modal-body">
                             <form name="userForm" class="form-horizontal" novalidate="" >
-                            <!-- <form action="{!! action('UsersController@store') !!}" method="POST" enctype="multipart/form-data"> -->
-
                                 <div class="form-group error">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
                                     <div class="col-sm-9">
@@ -211,11 +209,10 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Photo</label>
                                     <div class="col-sm-9">
-                                    <input type="text" style="display:none" class="form-control" id="photo" ng-model="user.photo" name="photo">
-                                        <input type="file" accept="image/*" 
+                                    <input type="text" style="display:none" class="form-control" name="photo" ng-model="user.photo" name="photo">
+                                        <input type="file" id="photo"
                                         onchange="angular.element(this).scope().uploadImage(this)">
-                                        <span class="help-inline"
-                                            ng-show="user.photo !== null">
+                                        <span class="help-inline" ng-show="user.photo !== null">
                                             Current photo: @{{user.photo}}
                                             <br>
                                         </span>

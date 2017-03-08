@@ -2,7 +2,7 @@ var app = angular.module('usersApp', [])
 .constant('API_URL', 'http://user.app/api/');
 
 app.controller('usersController', function($scope, $http, API_URL) {
-//retrieve employees listing from API
+//retrieve user list 
 $http.get(API_URL + "users")
 .success(function(response) {
 	$scope.users = response;
@@ -13,28 +13,37 @@ $scope.orderByMe = function(user) {
 }
 
 $scope.uploadImage = function(user) {
+	// validate image extension
 	var file = user.files[0];
 	var fileName = file.name;
 	var extension = fileName.split(".").pop();
-	if(extension!= 'jpg' && extension!= 'gif' && extension!= 'png' && extension!= 'jpeg') {
+	if(extension != 'jpg' && extension != 'gif' && extension != 'png' && extension != 'jpeg') {
 		alert("Please input a valid image");
-		location.reload();
+		document.getElementById("photo").value = "";
 	}
+	// validate image size
+	var fileSize = file.size;
+	if(file.size>=10000000) {
+		alert("File too large. 10MB maximum is allowed");
+		document.getElementById("photo").value = "";
+	}
+	// send image to handle
     var formData = new FormData();
-        formData.append("file", user.files[0]);
-        response = $http.post('/api/image', formData, {
-            headers: {'Content-Type': undefined},
-            transformRequest: angular.identity
-        }).success(function (data) {
-            $scope.user.photo = data;
-        }).error(function () {
-        });	
+    formData.append("file", user.files[0]);
+    response = $http.post('/api/image', formData, {
+        headers: {'Content-Type': undefined},
+        transformRequest: angular.identity
+    }).success(function (response) {
+    	console.log(response);
+        $scope.user.photo = response;
+    }).error(function () {
+    });	
 };
 
 // save new record / update existing record
 $scope.save = function(modalstate, id) {
 	var url = API_URL + "users";
-    //append employee id to the URL if the form is in edit mode
+    //append user id to the URL if the form is in edit mode
     if (modalstate === 'edit'){
     	url += "/" + id;
     }
@@ -65,8 +74,11 @@ $scope.toggle = function(modalstate, id) {
 		case 'add':
 		$scope.form_title = "Add New User";
 		$scope.user = "";
+		document.getElementById("photo").value = "";
+		console.log($scope.user);
 		break;
 		case 'edit':
+		document.getElementById("photo").value = "";
 		$scope.form_title = "User Detail";
 		$scope.id = id;
 		$http.get(API_URL + 'users/' + id)

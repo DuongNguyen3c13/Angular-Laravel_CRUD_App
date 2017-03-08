@@ -22,7 +22,7 @@ class UsersController extends Controller
     public function uploadImage(Request $request) {
         if($request->file('file')!==null) :
             $image = $request->file('file');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = $image->getClientOriginalName();
             $destinationPath = public_path('/image');
             $width = 426;
             $height = 426;
@@ -41,7 +41,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {   
-        // dd($request->photo);
         $user = new User;
         $user->name = $request->input('name');
         $user->address = $request->input('address');
