@@ -19,7 +19,20 @@ class UsersController extends Controller
             return $this->show($id);
         }
     }
-
+    public function uploadImage(Request $request) {
+        if($request->file('file')!==null) :
+            $image = $request->file('file');
+            $imageName = $image->getClientOriginalName();
+            $destinationPath = public_path('/image');
+            $width = 426;
+            $height = 426;
+            $newImage = \Image::make($image->getRealPath())
+                        ->resize($width, $height)
+                        ->save($destinationPath.'/'.$imageName);
+            $userPhoto = 'image/'.$imageName;
+        endif;
+        return $userPhoto;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -32,16 +45,7 @@ class UsersController extends Controller
         $user->name = $request->input('name');
         $user->address = $request->input('address');
         $user->age = $request->input('age');
-        $user->photo = $request->input('photo');
-        // if($request->file('photo')!==null) :
-        //     $image = $request->file('photo');
-        //     $imageName = time().'.'.$image->getClientOriginalExtension();
-        //     $destinationPath = public_path('/img');
-        //     $img = Image::make($image->getRealPath())
-        //                 ->resize(426, 590)
-        //                 ->save($destinationPath.'/'.$imageName);
-        //     $product->photo = 'img/'.$imageName;
-        // endif;  
+        $user->photo = $request->photo;
         $user->save();
         return 'User record successfully created with id ' . $user->id;
     }
@@ -70,18 +74,7 @@ class UsersController extends Controller
         $user->name = $request->input('name');
         $user->address = $request->input('address');
         $user->age = $request->input('age');
-        if($request->file('photo')!==null) :
-            $image = $request->file('photo');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/image');
-            //create an image in destinationPath folder
-            $width = 426;
-            $height = 590;
-            $photo = Image::make($image->getRealPath())
-                        ->resize($width, $height)
-                        ->save($destinationPath.'/'.$imageName);
-            $product->photo = 'image/'.$imageName;
-        endif;  
+        $user->photo = $request->photo;
         $user->save();
 
         return "Sucess updating user #" . $user->id;
