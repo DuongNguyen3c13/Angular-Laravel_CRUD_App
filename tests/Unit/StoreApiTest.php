@@ -9,12 +9,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class StoreApiTest extends TestCase
 {
 	// Test it can store new user
-    public function test_it_can_store_new_user($name ="dummy name", $address="dummy address", $age="12")
+    public function test_it_can_store_new_user()
     {
     	$request_array = [
-	        'name' => $name,
-	        'address' => $address,
-	        'age' => $age,
+	        'name' => "dummy name",
+	        'address' => "dummy address",
+	        'age' => "12",
     	];
         $response = $this->call('POST', 'api/users', $request_array);
         $data = json_decode($response ->getContent(), true);
@@ -27,15 +27,13 @@ class StoreApiTest extends TestCase
     }
 
 	// Test it can returns false if name input is too long
-    public function test_it_returns_false_if_too_long_input_for_name(
-    	// 101 characters
-    	$name ="abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdef", 
-    	$address="dummy address", $age="12")
+    public function test_it_returns_false_if_too_long_input_for_name()
     {
     	$request_array = [
-        'name' => $name,
-        'address' => $address,
-        'age' => $age,
+    	// 101 characters
+        'name' => "abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdef",
+        'address' => "dummy address",
+        'age' => "12",
     ];
         $response = $this->call('POST', 'api/users', $request_array);
         $data = json_decode($response ->getContent(), true);
@@ -48,13 +46,12 @@ class StoreApiTest extends TestCase
     }
 
 	// Test it can returns false if name input format is wrong
-    public function test_it_returns_false_if_wrong_format_input_for_name(
-    	$name ="wrong_dummy_name", $address="dummy address", $age="12")
+    public function test_it_returns_false_if_invalid_input_for_name()
     {
     	$request_array = [
-        'name' => $name,
-        'address' => $address,
-        'age' => $age,
+        'name' => "wrong_dummy_name",
+        'address' => "dummy address",
+        'age' => "12",
     ];
         $response = $this->call('POST', 'api/users', $request_array);
         $data = json_decode($response ->getContent(), true);
@@ -67,12 +64,12 @@ class StoreApiTest extends TestCase
     }
 
 	// Test it can returns false if name input is blank
-    public function test_it_returns_false_if_blank_input_for_name($name ="", $address="dummy address", $age="12")
+    public function test_it_returns_false_if_blank_input_for_name()
     {
     	$request_array = [
-        'name' => $name,
-        'address' => $address,
-        'age' => $age,
+        'name' => "",
+        'address' => "dummy address",
+        'age' => "12",
     ];
         $response = $this->call('POST', 'api/users', $request_array);
         $data = json_decode($response ->getContent(), true);
@@ -85,13 +82,12 @@ class StoreApiTest extends TestCase
     }
 
 	// Test it can returns false if address input format is wrong
-    public function test_it_returns_false_if_wrong_input_format_for_address(
-    	$name ="dummy name", $address="dummy_address", $age="12")
+    public function test_it_returns_false_if_invalid_input_for_address()
     {
     	$request_array = [
-        'name' => $name,
-        'address' => $address,
-        'age' => $age,
+        'name' => "dummy name",
+        'address' => "invalid_dummy_address",
+        'age' => "12",
     ];
         $response = $this->call('POST', 'api/users', $request_array);
         $data = json_decode($response ->getContent(), true);
@@ -104,12 +100,12 @@ class StoreApiTest extends TestCase
     }
 
 	// Test it can returns false if address input is blank
-    public function test_it_returns_false_if_blank_input_for_address($name ="dummy name", $address="", $age="12")
+    public function test_it_returns_false_if_blank_input_for_address()
     {
     	$request_array = [
-        'name' => $name,
-        'address' => $address,
-        'age' => $age,
+        'name' => "dummy name",
+        'address' => "",
+        'age' => "12",
     ];
         $response = $this->call('POST', 'api/users', $request_array);
         $data = json_decode($response ->getContent(), true);

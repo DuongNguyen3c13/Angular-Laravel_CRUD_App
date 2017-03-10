@@ -69,12 +69,11 @@ $scope.save = function(modalstate, id) {
 // show modal form
 $scope.toggle = function(modalstate, id) {
 	$scope.modalstate = modalstate;
-
 	switch (modalstate) {
 		case 'add':
 			$scope.form_title = "Add New User";
+			$scope.userForm.$setUntouched();
 			$scope.user = {};
-			// $scope.user.$setUntouched();
 			document.getElementById("photo").value = "";
 			$('#photo-format-error').html("");
 			$('#photo-size-error').html("");

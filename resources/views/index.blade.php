@@ -200,7 +200,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Age</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" ng-focus="userForm.age.$setUntouched()" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[0-9]*$/">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" ng-focus="userForm.age.$setUntouched()" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[1-9]\d*$/">
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.age.$error.required && userForm.age.$touched">Age field is required
                                             <br>
@@ -212,7 +212,7 @@
                                         </span>
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.age.$error.pattern && userForm.age.$touched">
-                                            Age field must contain number only
+                                            Age field must contain positive number only
                                             <br>
                                         </span>
                                     </div>

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Requests\StoreUser;
 
+define('width', '426');
+define('height', '426');
 class UsersController extends Controller
 {
     /**
@@ -21,8 +23,6 @@ class UsersController extends Controller
         }
     }
     public function uploadImage(Request $request) {
-        define('width', '426');
-        define('height', '426');
         if($request->hasFile('file')) :
             $image = $request->file('file');
             $imageName = $image->getClientOriginalName();
