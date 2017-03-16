@@ -8,10 +8,14 @@ $http.get(API_URL + "users")
 	$scope.users = response;
 });
 
+// sort users
 $scope.orderBy = function(field) {
 	$scope.field = field;
 };
-
+// hide modal when users click cancel
+$scope.close = function() {
+	$('#saveModal').modal('hide');
+}
 $scope.uploadImage = function(user) {
 	// validate image extension
 	$('#photo-format-error').html("");
@@ -49,6 +53,7 @@ $scope.save = function(modalstate, id) {
     if (modalstate === 'edit'){
     	url += "/" + id;
     }
+    // save record
     $http({
     	method: 'POST',
     	url: url,
