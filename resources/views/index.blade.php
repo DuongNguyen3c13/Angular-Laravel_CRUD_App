@@ -153,7 +153,7 @@
                                 <div class="form-group error">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="@{{name}}" ng-focus="userForm.name.$setUntouched()" 
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" ng-focus="userForm.name.$setUntouched()" 
                                         ng-model="user.name" ng-required="true" ng-maxlength="100" ng-pattern="/^[a-zA-Z\s]*$/">
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.name.$error.required && userForm.name.$touched">
@@ -176,7 +176,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Address</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="@{{address}}" ng-focus="userForm.address.$setUntouched()"
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" ng-focus="userForm.address.$setUntouched()"
                                         ng-model="user.address" ng-required="true" ng-maxlength="300" 
                                         ng-pattern="/^[a-zA-Z0-9,. \t\r\n\-]+$/">
                                         <span class="help-inline" style="color:red"
@@ -200,7 +200,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Age</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" ng-focus="userForm.age.$setUntouched()" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[1-9]\d*$/">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" ng-focus="userForm.age.$setUntouched()" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[1-9]\d*$/">
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.age.$error.required && userForm.age.$touched">Age field is required
                                             <br>
@@ -235,7 +235,8 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btn-save" name="submit" ng-click="save(modalstate, id)" ng-disabled="userForm.$invalid">Save changes</button>
+                            <button type="button" class="btn btn-primary" ng-click="close()">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="btn-save" name="submit" onclick="this.disabled=true"  ng-click="save(modalstate, id)" ng-disabled="userForm.$invalid">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -284,8 +285,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dashboard/dist/js/demo.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
-<script src="{{ asset('app/bower_components/ng-file-upload/ng-file-upload.min.js')}}"></script>
 <script src="{{ asset('app/app.js') }}"></script>
 <!-- confirm js -->
 <script src="{{ asset('dashboard/dist/js/jquery.confirm.min.js') }}"></script>
