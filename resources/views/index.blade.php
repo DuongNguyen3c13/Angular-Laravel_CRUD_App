@@ -102,7 +102,9 @@
             <table class="table"  style="word-break: keep-all;">
                 <thead>
                 <tr>
-                <th>ID 
+                <th>ID
+                    <a href="#"  ng-click="orderBy('id')">&#x25B2;</a>
+                    <a href="#"  ng-click="orderBy('-id')">&#x25BC;</a> 
                 </th>
                 <th>Name 
                     <a href="#"  ng-click="orderBy('name')">&#x25B2;</a>
