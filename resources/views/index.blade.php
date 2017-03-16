@@ -99,12 +99,10 @@
             <div  ng-controller="usersController">
 
             <!-- Table-to-load-the-data Part -->
-            <table class="table">
+            <table class="table"  style="word-break: keep-all;">
                 <thead>
                 <tr>
                 <th>ID 
-                    <a href="#" ng-click="orderBy('id')">&#x25B2;</a>
-                    <a href="#" ng-click="orderBy('-id')">&#x25BC;</a>
                 </th>
                 <th>Name 
                     <a href="#"  ng-click="orderBy('name')">&#x25B2;</a>
@@ -149,11 +147,11 @@
                             <h4 class="modal-title" id="saveModalLabel">@{{form_title}}</h4>
                         </div>
                         <div class="modal-body">
-                            <form name="userForm" class="form-horizontal" novalidate="" >
+                            <form name="userForm" class="form-horizontal" novalidate="">
                                 <div class="form-group error">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="@{{name}}" 
+                                        <input type="text" class="form-control has-error" id="name" name="name" placeholder="Name" value="@{{name}}" ng-focus="userForm.name.$setUntouched()" 
                                         ng-model="user.name" ng-required="true" ng-maxlength="100" ng-pattern="/^[a-zA-Z\s]*$/">
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.name.$error.required && userForm.name.$touched">
@@ -176,7 +174,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Address</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="@{{address}}" 
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="@{{address}}" ng-focus="userForm.address.$setUntouched()"
                                         ng-model="user.address" ng-required="true" ng-maxlength="300" 
                                         ng-pattern="/^[a-zA-Z0-9,. \t\r\n\-]+$/">
                                         <span class="help-inline" style="color:red"
@@ -200,7 +198,7 @@
                                 <div class="form-group">
                                     <label for="inputEmail3" class="col-sm-3 control-label">Age</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[0-9]*$/">
+                                        <input type="text" class="form-control" id="age" name="age" placeholder="Age" value="@{{age}}" ng-focus="userForm.age.$setUntouched()" ng-model="user.age" ng-required="true" ng-maxlength="2" ng-pattern="/^[1-9]\d*$/">
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.age.$error.required && userForm.age.$touched">Age field is required
                                             <br>
@@ -212,7 +210,7 @@
                                         </span>
                                         <span class="help-inline" style="color:red"
                                             ng-show="userForm.age.$error.pattern && userForm.age.$touched">
-                                            Age field must contain number only
+                                            Age field must contain positive number only
                                             <br>
                                         </span>
                                     </div>

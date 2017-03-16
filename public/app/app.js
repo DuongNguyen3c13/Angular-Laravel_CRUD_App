@@ -10,14 +10,13 @@ $http.get(API_URL + "users")
 
 $scope.orderBy = function(field) {
 	$scope.field = field;
-}
+};
 
 $scope.uploadImage = function(user) {
 	// validate image extension
 	$('#photo-format-error').html("");
 	$('#photo-size-error').html("");
 	var file = user.files[0];
-	console.log(file);
 	var fileName = file.name;
 	var extension = fileName.split(".").pop();
 	if(extension != 'jpg' && extension != 'gif' && extension != 'png' && extension != 'jpeg') {
@@ -38,7 +37,6 @@ $scope.uploadImage = function(user) {
 		headers: {'Content-Type': undefined},
 		transformRequest: angular.identity
 	}).success(function (response) {
-		console.log(response);
 		$scope.user.photo = response;
 	}).error(function () {
 	});	
@@ -57,7 +55,6 @@ $scope.save = function(modalstate, id) {
     	data: $.param($scope.user),
     	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(response) {
-    	console.log(response);
     	//reload page
     	$http.get(API_URL + "users")
     	.success(function(response) {
@@ -65,40 +62,36 @@ $scope.save = function(modalstate, id) {
     	});
     	$('#saveModal').modal('hide');
     }).error(function(response) {
-    	console.log(response);
     	alert('An error has occured. Please check the log for details');
     });
-}
+};
 
 // show modal form
 $scope.toggle = function(modalstate, id) {
 	$scope.modalstate = modalstate;
-
 	switch (modalstate) {
 		case 'add':
-		$scope.form_title = "Add New User";
-		$scope.user = {};
-		document.getElementById("photo").value = "";
-		$('#photo-format-error').html("");
-		$('#photo-size-error').html("");
-		console.log($scope.user);
-		break;
+			$scope.form_title = "Add New User";
+			$scope.userForm.$setUntouched();
+			$scope.user = {};
+			document.getElementById("photo").value = "";
+			$('#photo-format-error').html("");
+			$('#photo-size-error').html("");
+			break;
 		case 'edit':
-		document.getElementById("photo").value = "";
-		$('#photo-format-error').html("");
-		$('#photo-size-error').html("");
-		$scope.form_title = "User Detail";
-		$scope.id = id;
-		$http.get(API_URL + 'users/' + id)
-		.success(function(response) {
-			console.log(response);
-			$scope.user = response;
-		});
-		break;
+			document.getElementById("photo").value = "";
+			$('#photo-format-error').html("");
+			$('#photo-size-error').html("");
+			$scope.form_title = "User Detail";
+			$scope.id = id;
+			$http.get(API_URL + 'users/' + id)
+				.success(function(response) {
+				$scope.user = response;
+			});
+			break;
 	}
-	console.log(id);
 	$('#saveModal').modal('show');
-}
+};
 
 //delete record
 $scope.confirmDelete = function(id) {
@@ -109,7 +102,6 @@ $scope.confirmDelete = function(id) {
 			url: API_URL + 'users/destroy/' + id
 		}).
 		success(function(data) {
-			console.log(data);
 			//reload page
 			$http.get(API_URL + "users")
 			.success(function(response) {
@@ -117,7 +109,6 @@ $scope.confirmDelete = function(id) {
 			});
 		}).
 		error(function(data) {
-			console.log(data);
 			alert('Unable to delete');
 		});
 	} else {

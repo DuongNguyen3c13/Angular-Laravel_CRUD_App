@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Http\Requests\StoreUser;
 
+define('width', '426');
+define('height', '426');
 class UsersController extends Controller
 {
     /**
@@ -20,14 +23,12 @@ class UsersController extends Controller
         }
     }
     public function uploadImage(Request $request) {
-        if($request->file('file')!==null) :
+        if($request->hasFile('file')) :
             $image = $request->file('file');
             $imageName = $image->getClientOriginalName();
             $destinationPath = public_path('/image');
-            $width = 426;
-            $height = 426;
             $newImage = \Image::make($image->getRealPath())
-                        ->resize($width, $height)
+                        ->resize(width, height)
                         ->save($destinationPath.'/'.$imageName);
             $userPhoto = 'image/'.$imageName;
         endif;
@@ -39,15 +40,17 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {   
         $user = new User;
         $user->name = $request->input('name');
         $user->address = $request->input('address');
         $user->age = $request->input('age');
         $user->photo = $request->photo;
-        $user->save();
-        return 'User record successfully created with id ' . $user->id;
+        if($user->save() ){
+            return array("status"=>'true');
+        }
+        return array("status"=>'false');
     }
 
     /**
@@ -68,7 +71,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUser $request, $id)
     {
         $user = User::find($id);
         $user->name = $request->input('name');
